@@ -16,10 +16,9 @@ provider "kubernetes" {
   username               = "${var.username}"
   password               = "${var.password}"
   host     = "${data.terraform_remote_state.gke.host}"
-  client_certificate     = "${data.terraform_remote_state.gke.client_certificate}"
-  client_key             = "${data.terraform_remote_state.gke.client_key}"
-  cluster_ca_certificate = "${data.terraform_remote_state.gke.cluster_ca_certificate}"
-
+  client_certificate     = "${base64decode(data.terraform_remote_state.gke.client_certificate)}"
+  client_key             = "${base64decode(data.terraform_remote_state.gke.client_key)}"
+  cluster_ca_certificate = "${base64decode(data.terraform_remote_state.gke.cluster_ca_certificate)}"
 
   load_config_file = false
 }
