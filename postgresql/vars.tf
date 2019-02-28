@@ -1,3 +1,15 @@
+variable "bucket" {
+  description = "Bucket for gke module remote state"
+}
+
+variable "prefix" {
+  description = "Prefix for gke module remote state"
+}
+
+variable "project" {
+  description = "Project for gke module remote state"
+}
+
 variable "DB" {
   description = "Database name"
 }
