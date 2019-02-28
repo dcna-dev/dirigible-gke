@@ -3,6 +3,15 @@ terraform {
   backend "gcs" {}
 }
 
+data "terraform_remote_state" "gke" {
+  backend = "gcs"
+  config {
+    bucket = "${var.bucket}"
+    prefix = "${var.prefix}"
+    project = "${var.project}"
+  }
+}
+
 provider "kubernetes" {
 #  host = "${var.host}"
   username               = "${var.username}"
@@ -10,10 +19,10 @@ provider "kubernetes" {
 #  client_certificate     = "${base64decode(var.client_certificate)}"
 #  client_key             = "${base64decode(var.client_key)}"
 #  cluster_ca_certificate = "${base64decode(var.cluster_ca_certificate)}"
-  host     = "${var.host}"
-  client_certificate     = "${var.client_certificate}"
-  client_key             = "${var.client_key}"
-  cluster_ca_certificate = "${var.cluster_ca_certificate}"
+  host     = "${data.terraform_remote_state.gke.host}"
+  client_certificate     = "${data.terraform_remote_state.gke.client_certificate}"
+  client_key             = "${data.terraform_remote_state.gke.client_key}"
+  cluster_ca_certificate = "${data.terraform_remote_state.gke.cluster_ca_certificate}"
 
 
   load_config_file = false
