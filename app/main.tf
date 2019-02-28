@@ -30,7 +30,7 @@ resource "kubernetes_config_map" "dirigible-config" {
   data = {
     POSTGRES_DB = "${var.DB}"
     POSTGRES_PASSWORD = "${var.DB_PASSWORD}"
-    POSTGRES_USER = "${var.DB_USER}"
+    POSTGRES_USERNAME = "${var.DB_USER}"
 
     DIRIGIBLE_DATABASE_PROVIDER="custom"
     DIRIGIBLE_DATABASE_CUSTOM_DATASOURCES="POSTGRES"
