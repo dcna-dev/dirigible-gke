@@ -30,4 +30,8 @@ variable "password" {
   description = "Kubernetes master password"
 }
 
+variable "postgres_storage" {
+  description = "Length of postrgesql persistent storage /var/lib/pgsql"
+}
+
 

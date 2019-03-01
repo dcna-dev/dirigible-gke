@@ -29,7 +29,6 @@ resource "kubernetes_config_map" "dirigible-config" {
   }
   data = {
     POSTGRES_DB = "${var.DB}"
-    POSTGRES_PASSWORD = "${var.DB_PASSWORD}"
     POSTGRES_USERNAME = "${var.DB_USER}"
 
     DIRIGIBLE_DATABASE_PROVIDER="custom"
@@ -40,11 +39,19 @@ resource "kubernetes_config_map" "dirigible-config" {
     DIRIGIBLE_SCHEDULER_DATABASE_DRIVER="org.postgresql.Driver"
     DIRIGIBLE_SCHEDULER_DATABASE_URL="jdbc:postgresql://postgresql:5432/${var.DB}"
     DIRIGIBLE_SCHEDULER_DATABASE_USER="${var.DB_USER}"
-    DIRIGIBLE_SCHEDULER_DATABASE_PASSWORD="${var.DB_PASSWORD}"
     DIRIGIBLE_SCHEDULER_DATABASE_DELEGATE="org.quartz.impl.jdbcjobstore.PostgreSQLDelegate"
   }
 }
 
+resource "kubernetes_secret" "dirigible" {
+  metadata {
+    name = "postgres-pass"
+  }
+
+  data {
+    password = "${var.DB_PASSWORD}"
+  }
+}
 
 resource "kubernetes_deployment" "app" {
   metadata {
@@ -71,6 +78,24 @@ resource "kubernetes_deployment" "app" {
         container {
           image = "gcr.io/dirigible-gke/dirigible2"
           name  = "dirigible"
+          env {
+            name = "POSTGRES_PASSWORD"
+            value_from {
+              secret_key_ref {
+                name = "${kubernetes_secret.postgresql.metadata.0.name}"
+                key = "password"
+              }
+            }
+          }
+          env {
+            name = "DIRIGIBLE_SCHEDULER_DATABASE_PASSWORD"
+            value_from {
+              secret_key_ref {
+                name = "${kubernetes_secret.postgresql.metadata.0.name}"
+                key = "password"
+              }
+            }
+          }
           env_from {
             config_map_ref {
               name = "dirigible-config"
