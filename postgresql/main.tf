@@ -107,7 +107,7 @@ resource "kubernetes_deployment" "postgresql" {
         }
         volume {
           name = "postgres-storage"
-          persistentVolumeClaim {
+          persistent_volume_claim {
             claim_name = "${kubernetes_persistent_volume_claim.postgresql.metadata.0.name}"
           }
         }
