@@ -105,7 +105,7 @@ resource "kubernetes_deployment" "postgresql" {
             mount_path = "/var/lib/pgsql"
           }
         }
-        volumes {
+        volume {
           name = "postgres-storage"
           persistentVolumeClaim {
             claim_name = "${kubernetes_persistent_volume_claim.postgresql.metadata.0.name}"
