@@ -48,7 +48,7 @@ resource "kubernetes_persistent_volume_claim" "postgresql" {
     name = "postgresql"
   }
   spec {
-    access_modes = ["ReadWriteMany"]
+    access_modes = ["ReadWriteOnce"]
     resources {
       requests {
         storage = "${var.postgres_storage}"
