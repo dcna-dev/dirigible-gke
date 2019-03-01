@@ -82,7 +82,7 @@ resource "kubernetes_deployment" "app" {
             name = "POSTGRES_PASSWORD"
             value_from {
               secret_key_ref {
-                name = "${kubernetes_secret.postgresql.metadata.0.name}"
+                name = "${kubernetes_secret.dirigible.metadata.0.name}"
                 key = "password"
               }
             }
@@ -91,7 +91,7 @@ resource "kubernetes_deployment" "app" {
             name = "DIRIGIBLE_SCHEDULER_DATABASE_PASSWORD"
             value_from {
               secret_key_ref {
-                name = "${kubernetes_secret.postgresql.metadata.0.name}"
+                name = "${kubernetes_secret.dirigible.metadata.0.name}"
                 key = "password"
               }
             }
