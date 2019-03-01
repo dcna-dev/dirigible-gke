@@ -45,7 +45,7 @@ resource "kubernetes_config_map" "dirigible-config" {
 
 resource "kubernetes_secret" "dirigible" {
   metadata {
-    name = "postgres-pass"
+    name = "dirigible-pass"
   }
 
   data {
