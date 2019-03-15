@@ -1,0 +1,17 @@
+project_id = "gcp-project"
+region = "us-central1"
+zone = "us-central1-b"
+cluster_name = "cluster-test"
+initial_node_count = 2
+
+username = ""
+password = ""
+DB       = "dirigible_database"
+DB_PASSWORD = "dirigible1234"
+DB_USER = "dirigible_system"
+postgres_storage = "1Gi"
+
+# Access to gke module remote state
+bucket  = ""
+project = "gcp-project"
+prefix = "gke"
